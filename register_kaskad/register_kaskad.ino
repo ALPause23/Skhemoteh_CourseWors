@@ -27,14 +27,6 @@ void setup() {
   
 }
 
-void loop()
-{
-  //return_num();
-  outputNum();
-  //timer99();
-  //endClock();
-}
-
 void timer99()
 {
   while(digitalRead(Nkoder_output) == HIGH){
@@ -87,19 +79,33 @@ void randomNum()
 {
   int number_Rand = random(99);
   Serial.println(number_Rand);
-  int num_St = number_Rand/10;
-  int num_Ml = number_Rand - num_St;
-  shiftOut(data, clok, LSBFIRST, num[num_St]);
-  shiftOut(data, clok, LSBFIRST, num[num_Ml]);
-  delay(500);
+  outputNum(number_Rand);
 }
 
-void outputNum(){
-  int number = 88;
+void outputNum(int number)
+{
+  digitalWrite(latch, LOW);
+  //int number = 89;
+  //Serial.println(number);
+  //delay(1000);
   int num_St = number/10;
-  int num_Ml = number - num_St;
+  //Serial.println(num_St);
+  //delay(1000);
+  int num_Ml = number - num_St*10;
+  //Serial.println(num_Ml);
   shiftOut(data, clok, LSBFIRST, num[num_St]);
   shiftOut(data, clok, LSBFIRST, num[num_Ml]);
-  Serial.println(67);
-  delay(5000);
+  digitalWrite(latch, HIGH);
+  delay(1000);
+  
+}
+
+
+void loop()
+{
+  //return_num();
+  //outputNum();
+  //timer99();
+  //endClock();
+  randomNum();
 }
