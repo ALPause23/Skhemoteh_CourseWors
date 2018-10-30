@@ -85,21 +85,35 @@ void randomNum()
 void outputNum(int number)
 {
   digitalWrite(latch, LOW);
-  //int number = 89;
-  //Serial.println(number);
-  //delay(1000);
   int num_St = number/10;
-  //Serial.println(num_St);
-  //delay(1000);
   int num_Ml = number - num_St*10;
-  //Serial.println(num_Ml);
-  shiftOut(data, clok, LSBFIRST, num[num_St]);
-  shiftOut(data, clok, LSBFIRST, num[num_Ml]);
-  digitalWrite(latch, HIGH);
-  delay(1000);
+  flipping(num_St,num_Ml, number); 
+  //shiftOut(data, clok, LSBFIRST, num[num_St]);
+  //shiftOut(data, clok, LSBFIRST, num[num_Ml]);
+  //digitalWrite(latch, HIGH);
+  delay(2000);
   
 }
 
+int flipping(int stN, int mlN, int Num)
+{
+  int clk = 0;
+  for(int i = 0; i <= stN; i++)
+  {
+    for(int j = 0; j <= mlN; j++)
+    {
+      clk++;
+      digitalWrite(latch, LOW);
+      shiftOut(data, clok, LSBFIRST, num[i]);
+      shiftOut(data, clok, LSBFIRST, num[j]);
+      digitalWrite(latch, HIGH);
+      
+      delay(10 + (clk*100/Num)*10);
+    }
+  }
+  clock_Buzzer();
+  return 0;
+}
 
 void loop()
 {
